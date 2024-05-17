@@ -1,17 +1,28 @@
-import React from "react";
-import Navigation from "./Components/LandingPage/Navigation";
-import { BrowserRouter as Router,  Route, Routes} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navigation from './Components/LandingPage/Navigation'
+import Container from './Components/LandingPage/Container'
+import './index.css'
+import SignIn from './Components/LogInPage/LogIn'
+import "./Components/LogInPage/LogIn.css"
+import './Components/UserPage/UserNav'
+import UserNav from "./Components/UserPage/UserNav";
 
-
-function App(){
+function App() {
   return (
     <>
-    <Router>
-    <Navigation />
-    </Router>
+      <Router>
+        <Navigation />
+        <Container />
+          <Routes>
+            <Route path="/login" exact element={<SignIn />} />
+          </Routes>
+
+          <Routes>
+            <Route path="/add user" exact element={<UserNav />} />
+          </Routes>
+      </Router>
     </>
   )
 }
-
 
 export default App;
