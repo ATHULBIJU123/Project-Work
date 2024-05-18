@@ -1,4 +1,4 @@
-exports.success_function () = function (api_data) {
+exports.success_function = function (api_data) {
     let response = {
         success : true,
         statusCode: api_data.statusCode,
