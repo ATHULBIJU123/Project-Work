@@ -18,7 +18,7 @@ background-image : linear-gradient(purple, white);
 }
 
 
-nav{
+/* nav{
 position:sticky;
 display: flex;
 justify-content: flex-end;
@@ -30,7 +30,7 @@ margin: 10px;
 .items{
 display: flex;
 list-style: none;
-}
+} */
 
 body {
 margin: 0px;
