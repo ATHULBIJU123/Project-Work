@@ -1,0 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url(./images/pexels-quang-nguyen-vinh-222549-2166711.jpg);
+    background-repeat: no-repeat;
+    background-size:100% 100%;
+}
