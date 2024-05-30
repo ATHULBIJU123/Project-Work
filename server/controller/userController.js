@@ -1,13 +1,11 @@
-const axios = require('axios');
-
 const { error_function } = require('../utils/response-handler');
 const { success_function} = require('../utils/response-handler');
+const users = require("../db/models/users")
 
 
 exports.getUsers = async function (req, res) {
-  const userModel = mongoose.model('userModel')
   try {
-    const userData = await userModel.find();
+    const userData = await users.find();
     if (userData) {
       let response = success_function({
         statusCode: 200,

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const connect = require('./db/config')
-// const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const dotenv = require('dotenv');
@@ -20,7 +20,7 @@ app.use(express.urlencoded(({extended: true})));
 app.use(express.json());
 
 //userRoutes
-// app.use(userRoutes);
+app.use(userRoutes);
 
 //authRoutes
 app.use(authRoutes);
