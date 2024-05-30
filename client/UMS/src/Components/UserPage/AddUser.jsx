@@ -1,7 +1,7 @@
 function AddUSer() {
     return (
         <>
-            {/* <link rel="stylesheet" href="../../../" /> */}
+
             <form action="/submit" method="POST">
                 <h2>Add New User</h2>
                 <div id="firstname-group">

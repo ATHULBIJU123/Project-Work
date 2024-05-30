@@ -1,17 +1,22 @@
 const {success_function, error_function} = require('../utils/response-handler')
+const users = require("../db/models/users")
+let jwt = require('jsonwebtoken');
+let bcrypt =require('bcryptjs');
+let dotenv =require('dotenv');
+
 exports.login = async function (req, res) {
   try {
     let email = req.body.email;
     let password = req.body.password;
 
     if (email && password) {
-      let user = await user.findOne({
-        $and: [{ email: email }],
+      let user = await users.findOne({
+        email: email
       })
-        .populate("user_type");
+        console.log("user :",user);
 
       if (!user) {
-        let response = error_function({ "status": 400, "message": "Email invalid" });
+        let response = error_function({ "status": 400, "message": "Email is invalid" });
         res.status(response.statusCode).send(response);
         return;
       }
