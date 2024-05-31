@@ -16,12 +16,12 @@ exports.login = async function (req, res) {
         console.log("user :",user);
 
       if (!user) {
-        let response = error_function({ "status": 400, "message": "Email is invalid" });
+        let response = error_function({ statusCode: 400, message: "Email is invalid" });
         res.status(response.statusCode).send(response);
         return;
       }
 
-      let user_type = user.user_type.user_type;
+      // let user_type = user.user_type.user_type;
       if (user) {
         //verifying password
         bcrypt.compare(password, user.password, async (error, auth) => {
@@ -33,17 +33,17 @@ exports.login = async function (req, res) {
               { expiresIn: "10d" }
             );
             let response = success_function({
-              status: 200,
+              statusCode: 200,
               data: access_token,
               message: "Login Successful",
             });
 
-            response.user_type = user_type;
+            // response.user_type = user_type;
             res.status(response.statusCode).send(response);
             return;
           } else {
             let response = error_function({
-              status: 401,
+              statusCode: 401,
               message: "Invalid Credentials",
             });
 
@@ -53,7 +53,7 @@ exports.login = async function (req, res) {
         });
       } else {
         let response = error_function({
-          status: 401,
+          statusCode: 401,
           message: "Invalid Credentials",
         });
         res.status(response.statusCode).send(response);
@@ -62,7 +62,7 @@ exports.login = async function (req, res) {
     } else {
       if (!email) {
         let response = error_function({
-          status: 422,
+          statusCode: 422,
           message: "Email is required",
         });
         res.status(response.statusCode).send(response);
@@ -70,7 +70,7 @@ exports.login = async function (req, res) {
       }
       if (!password) {
         let response = error_function({
-          status: 422,
+          statusCode: 422,
           message: "Password is required",
         });
         res.status(response.statusCode).send(response);
@@ -80,7 +80,7 @@ exports.login = async function (req, res) {
   } catch (error) {
     if (process.env.NODE_ENV == "production") {
       let response = error_function({
-        status: 400,
+        statusCode: 400,
         message: error
           ? error.message
             ? error.message
@@ -91,7 +91,10 @@ exports.login = async function (req, res) {
       res.status(response.statusCode).send(response);
       return;
     } else {
-      let response = error_function({ status: 400, message: error });
+      let response = error_function({ 
+      statusCode: 400,
+      message: error.message ? error.message : error,
+     });
       res.status(response.statusCode).send(response);
       return;
     }
