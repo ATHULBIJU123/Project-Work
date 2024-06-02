@@ -3,9 +3,11 @@ const app = express();
 const connect = require('./db/config')
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
-
+const cors = require("cors")
 const dotenv = require('dotenv');
 dotenv.config();
+
+app.use(cors());
 
 //Database connection //
 connect();
