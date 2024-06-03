@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./LogIn.css"
 import React, {useState} from "react";
 import axios from "axios";
+
+import UserNav from "../UserPage/UserNav";
 
 const LogIn = () => {
     const submitForm = async (email, password) => {
@@ -10,14 +13,19 @@ const LogIn = () => {
                 email: email,
                 password: password
             });
-            if (response.data && response.data.data) {
-                localStorage.setItem('jwtToken', response.data.data);
+            console.log("response:", response)
+            if (response.data && response.data.success) {
+                console.log("response.data.data:", response.data.data)
+                localStorage.setItem('jwtToken', response.data.data.data);
                 console.log('Token saved to localStorage');
+                
             } else {
                 console.error('Token not found in response');
+                alert("Token not found in response")
             }
         } catch (error) {
             console.error('Error fetching the token:', error);
+            alert("Something went wrong")
         }
     };
 
@@ -66,6 +74,9 @@ const LogIn = () => {
         <>
             <link rel="stylesheet" href="" />
             <LoginForm />
+            {/* <Routes>
+                <Route path="/add user" exact element={<UserNav />} />
+            </Routes> */}
         </>
     );
 };

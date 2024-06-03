@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Container from './Components/LandingPage/Container'
 
 import './index.css'
-import SignIn from './Components/LogInPage/LogIn'
+// import SignIn from './Components/LogInPage/LogIn'
+import LogIn from "./Components/LogInPage/LogIn";
 import "./Components/LogInPage/LogIn.css"
 import './Components/UserPage/UserNav'
 import UserNav from "./Components/UserPage/UserNav";
@@ -16,12 +17,12 @@ function App() {
       <LandingPage/>
 
           <Routes>
-            <Route path="/login" exact element={<SignIn />} />
+            <Route path="/login" exact element={<LogIn />} />
+            {/* <Route path="/about" exact element={<UserNav />} /> */}
+
           </Routes>
 
-          <Routes>
-            <Route path="/add user" exact element={<UserNav />} />
-          </Routes>
+
       </Router>
     </>
   )
