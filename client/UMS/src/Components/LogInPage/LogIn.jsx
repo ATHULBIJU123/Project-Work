@@ -1,12 +1,12 @@
-import { Link, } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./LogIn.css"
 import React, {useState} from "react";
 import axios from "axios";
 
-import UserNav from "../UserPage/UserNav";
 
 const LogIn = () => {
+    const navigate = useNavigate();
     const submitForm = async (email, password) => {
         try {
             const response = await axios.post('http://localhost:4000/login', {
@@ -18,6 +18,7 @@ const LogIn = () => {
                 console.log("response.data.data:", response.data.data)
                 localStorage.setItem('jwtToken', response.data.data.data);
                 console.log('Token saved to localStorage');
+                navigate('/admin');
                 
             } else {
                 console.error('Token not found in response');
@@ -32,6 +33,33 @@ const LogIn = () => {
     const LoginForm = () => {
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
+        const [emailerror,setEmailerror] = useState('');
+        const [passworderror,setPassworderror] = useState('');
+
+        const validateemail = (value) => {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            if (!value) {
+                setEmailerror('please enter your email')
+            } else if (!emailRegex.test(value)) {
+                setEmailerror("invalid mail")
+            } else {
+                setEmailerror('')
+            }
+        }
+    
+        const validatepassword = (value) => {
+            const passwordRegex = /^.{6,}$/
+    
+            if (!value){
+                setPassworderror('Enter your password')
+            }else if (!passwordRegex.test(value)) {
+                setPassworderror('Enter valid password')
+            }else {
+                setPassworderror('')
+            }
+            
+        }
+    
 
         const handleSubmit = (e) => {
             e.preventDefault();
@@ -48,9 +76,9 @@ const LogIn = () => {
                         id="email" 
                         name="email" 
                         value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        onChange={(e) => {setEmail(e.target.value); validateemail(e.target.value)}}
                     />
-                    <div id="email-error" />
+                    {emailerror && <p className="error-message">{emailerror}</p>}
                 </div>
                 <div id="password-group">
                     <label htmlFor="password">Password:</label>
@@ -59,8 +87,9 @@ const LogIn = () => {
                         id="password"
                         name="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {setPassword(e.target.value); validatepassword(e.target.value)}}
                     />
+                    {passworderror && <p className="error-message">{passworderror}</p>}
                     <div id="password-error" />
                 </div>
                 <div className="btn">
@@ -74,13 +103,8 @@ const LogIn = () => {
         <>
             <link rel="stylesheet" href="" />
             <LoginForm />
-            {/* <Routes>
-                <Route path="/add user" exact element={<UserNav />} />
-            </Routes> */}
         </>
     );
 };
 
 export default LogIn;
-
-
