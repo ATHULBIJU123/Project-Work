@@ -1,5 +1,5 @@
 
-
+import "./Admin.css"
 import AdminNav from "./AdminNav";
 
 

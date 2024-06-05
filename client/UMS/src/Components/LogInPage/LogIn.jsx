@@ -39,9 +39,9 @@ const LogIn = () => {
         const validateemail = (value) => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
             if (!value) {
-                setEmailerror('please enter your email')
+                setEmailerror('Please enter your email')
             } else if (!emailRegex.test(value)) {
-                setEmailerror("invalid mail")
+                setEmailerror("Invalid mail")
             } else {
                 setEmailerror('')
             }
@@ -53,7 +53,7 @@ const LogIn = () => {
             if (!value){
                 setPassworderror('Enter your password')
             }else if (!passwordRegex.test(value)) {
-                setPassworderror('Enter valid password')
+                setPassworderror('Enter a valid password')
             }else {
                 setPassworderror('')
             }

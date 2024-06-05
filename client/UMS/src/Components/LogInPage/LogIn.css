@@ -16,6 +16,8 @@ form{
     border-radius: 10px;
     padding: 20px;
     background-color: rgb(231, 238, 241);
+    width:600px;
+    margin: auto;
 }
 
 label{
@@ -40,8 +42,8 @@ select {
 }
 
 button {
-    background-color: #7d8348;
-    color: #fff;
+    background-color: #d6ec0f;
+    color: #2e0303;
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
@@ -56,10 +58,13 @@ button {
 }
 
 button:hover{
-    background-color: #1c871a;
+    background-color: #9acecb81;
 }
 
-#firstname-error,#lastname-error,#email-error,#password-error {
+/* #firstname-error,#lastname-error,#email-error,#password-error {
+    color: red;
+} */
+
+.error-message{
     color: red;
 }
-
