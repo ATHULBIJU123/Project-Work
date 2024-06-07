@@ -7,7 +7,7 @@ export default function Navigation() {
     return (
         <>
 
-            <nav>
+            <nav className="landing-nav">
                 <div className="navmain">
                     <ul className="items">
                         <li>

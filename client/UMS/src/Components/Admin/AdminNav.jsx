@@ -8,20 +8,20 @@ import React from "react";
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        navigate('/login');
+        navigate('/');
     };
      return(
         <>
         <nav className="adminnav">
             <div className="list">
                 <ul>
-                    <li>Home</li>
-                    <li><Link to="/adduser"><button type="submit">Add</button></Link></li>
-                    {/* <li><button onClick={handleLogout}>Logout</button></li> */}
+                    {/* <li>Home</li> */}
+                    <li><Link to="/adduser"><button type="submit">Add User</button></Link></li>
+                    <li><Link to="/getUser"><button type="submit">Get User</button></Link></li>
+                    <li><button onClick={handleLogout}>Logout</button></li>
                  </ul>
 
-            </div>
-            
+            </div>  
         </nav>
         </>
      )

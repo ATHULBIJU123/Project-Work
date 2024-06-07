@@ -1,16 +1,36 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
 .list,ul{
     display: flex;
-    padding: 0px 20px 0px 20px;
+    /* padding: 0px 20px 0px 20px; */
+    align-items: center;
 }
 
 .list ul,li{
     list-style-type: none;
-    padding: 10px 40px 0px 40px;
+    /* padding: 10px 40px 0px 40px; */
+}
+
+.list ul li button{
+    background-color: inherit;
+    color:rgb(10, 10, 10);
+}
+
+.list ul li button:hover{
+    background-color:rgba(128, 128, 128, 0.377);
+    border-color: green;
 }
 
 .adminnav{
-    border: solid 1px green;
+    /* border: solid 1px green; */
     color:white;
-    background-color: green;
-    height: 8vh;
+    background-color:inherit;
+    /* height: 8vh; */
+    width: 100vw;
+    margin-top: -450px;
 } 

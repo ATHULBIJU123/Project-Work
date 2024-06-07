@@ -14,7 +14,7 @@ function AddUSer() {
                     />
                     <div id="firstname-error" />
                 </div>
-                <div id="lastname-group">
+                <div id="lastname-group">adduser
                     <label htmlFor="name">Last Name:</label>
                     <input
                         type="text"

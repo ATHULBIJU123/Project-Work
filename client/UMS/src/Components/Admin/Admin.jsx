@@ -9,7 +9,7 @@ import AdminNav from "./AdminNav";
     return(
         <>
         <AdminNav/>
-        <div>
+        <div className="h1">
             <h1>Admin Page</h1>
         </div>
         </>
