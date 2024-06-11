@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const user_type = require('./user_type');
 
 const users = new mongoose.Schema({
     name: {
@@ -23,8 +24,10 @@ const users = new mongoose.Schema({
     password: {
         type: "String",
         required : true,
-    }
+    },
 
+
+    // user_type: {type: mongoose.Schema.Types.ObjectId, ref:"user_types"},
 
 });
 

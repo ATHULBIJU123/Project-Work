@@ -76,7 +76,7 @@ function AddUser(){
             const json_data = JSON.stringify(data);
             console.log("json_data: ",json_data)
 
-            console.log("Token",token);
+            // console.log("Token",token);
 
             const response = await axios.post('http://localhost:4000/adduser',json_data,{
                
@@ -99,12 +99,7 @@ function AddUser(){
                 if (responseData.errors.email || responseData.errors.email_empty) {
                     setEmailerror(responseData.errors.email_empty || responseData.errors.email)
                 }
-
-            }else if(responseData.success){
-                const passwordFromServer = response.data.password;
-                setGeneratedPassword(passwordFromServer);
             }
-
            
         } catch(error) {
             alert("Invalid email or password")
@@ -119,24 +114,19 @@ function AddUser(){
             <form className="adddetails" onSubmit={handleAddUser}>
 
                 <div>
-                <label htmlFor="name">Enter Your UserName</label>
+                <label htmlFor="name">Enter User Name</label>
                 <input type="text" placeholder="Username" name="name" value={name} onChange={(e)=>{setName(e.target.value); validatename(e.target.value) }} required/>
                 {nameerror && <p className="error-message">{nameerror}</p>}
                 </div>
                  
                  <div>
-                <label htmlFor="email">Enter Your Email</label>
+                <label htmlFor="email">Enter Email</label>
                 <input type="email" placeholder="email" name="email" value={email} onChange={(e)=> {setEmail(e.target.value); validateemail(e.target.value)}} required/>
                 {emailerror && <p className="error-message">{emailerror}</p>}
                 </div>
-                
-
-                {/* <label htmlFor="password">Enter Your Password</label>
-                <input type="password" placeholder="Enter Your Password" name="password" value={password} onChange={(e)=> {setPassword(e.target.value); validatepassword(e.target.value)}} required/>
-                {passworderror && <p className="error-message">{passworderror}</p>} */}
 
                 <div className="centre">
-                    {/* <Link to="/getuser"> */}
+
                         <button type="submit" onClick={handleAddUser}>Add User</button>
                 </div>
                 
