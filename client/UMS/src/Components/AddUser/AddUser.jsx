@@ -1,41 +1,148 @@
-function AddUSer() {
-    return (
-        <>
+import React,{useEffect,useState} from "react";
+import {BrowserRouter as Router,Route,Routes,Link,useParams} from 'react-router-dom';
+import './AddUser.css';
+// import Login from "../Login/Login";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-            <form action="/submit" method="POST">
-                <h2>Add New User</h2>
-                <div id="firstname-group">
-                    <label htmlFor="name">First Name:</label>
-                    <input
-                        type="text"
-                        id="firstname"
-                        name="firstname"
-                        onkeyup="validatefirstName()"
-                    />
-                    <div id="firstname-error" />
-                </div>
-                <div id="lastname-group">adduser
-                    <label htmlFor="name">Last Name:</label>
-                    <input
-                        type="text"
-                        id="lastname"
-                        name="lastnane"
-                        onkeyup="validatelastName()"
-                    />
-                    <div id="lastname-error" />
-                </div>
-                <div id="email-group">
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" onkeyup="validateEmail()" />
-                    <div id="email-error" />
-                </div>
+function AddUser(){
 
-                <div className="btn">
-                    <button type="button" onclick="submitForm()">Add User</button>
+    // const navigate=useNavigate();
+
+    // const isTokenpresent = () => {
+
+    //     const token = localStorage.getItem('token');
+    //     return !!token;
+    // };
+
+    // if (!isTokenpresent()) {
+    //     // alert("Login First")
+
+    //     const navigate = useNavigate();
+    //     navigate('/login');
+
+    //     return null;
+    // }
+
+    const [name, setName] = useState('');
+    const [nameerror, setNameerror] = useState('');
+
+    const [email, setEmail] = useState('');
+    const [emailerror, setEmailerror] = useState('');
+
+    const [generatedPassword, setGeneratedPassword] = useState('');
+
+    const [token,setToken] = useState('')
+
+    useEffect(()=>{
+        const storedToken = localStorage.getItem('token');
+
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    },[]);
+
+    const validatename = (value) => {
+        const nameRegex = /^.[a-z]{6}$/
+
+        if(!value) {
+            setNameerror('Enter your name')
+        }else if (nameRegex.test(value)){
+            setNameerror('Invalid name')
+        }else {
+            setNameerror('')
+        }
+
+    }
+
+    const validateemail = (value) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        if(!value) {
+            setEmailerror('Enter your email')
+        }else if (!emailRegex.test(value)) {
+            setEmailerror('Invalid email')
+        }else {
+            setEmailerror('')
+        }
+    }
+
+
+    const handleAddUser = async (e) => {
+        e.preventDefault();
+        try{
+
+            const data = {name,email};
+            const json_data = JSON.stringify(data);
+            console.log("json_data: ",json_data)
+
+            console.log("Token",token);
+
+            const response = await axios.post('http://localhost:4000/adduser',json_data,{
+               
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: json_data,
+            });
+            console.log('requested to add user',response);
+
+            const responseData = response.data;
+            console.log(responseData)
+            if(responseData.errors) {
+
+                if (responseData.errors.name || responseData.errors.name_empty) {
+                    setNameerror(responseData.errors.name_empty || responseData.errors.name)
+                }
+
+                if (responseData.errors.email || responseData.errors.email_empty) {
+                    setEmailerror(responseData.errors.email_empty || responseData.errors.email)
+                }
+
+            }else if(responseData.success){
+                const passwordFromServer = response.data.password;
+                setGeneratedPassword(passwordFromServer);
+            }
+
+           
+        } catch(error) {
+            alert("Invalid email or password")
+        }
+    }
+
+    return(
+
+        <div className="adddata">
+            <h2>Add New User</h2>
+
+            <form className="adddetails" onSubmit={handleAddUser}>
+
+                <div>
+                <label htmlFor="name">Enter Your UserName</label>
+                <input type="text" placeholder="Username" name="name" value={name} onChange={(e)=>{setName(e.target.value); validatename(e.target.value) }} required/>
+                {nameerror && <p className="error-message">{nameerror}</p>}
                 </div>
+                 
+                 <div>
+                <label htmlFor="email">Enter Your Email</label>
+                <input type="email" placeholder="email" name="email" value={email} onChange={(e)=> {setEmail(e.target.value); validateemail(e.target.value)}} required/>
+                {emailerror && <p className="error-message">{emailerror}</p>}
+                </div>
+                
+
+                {/* <label htmlFor="password">Enter Your Password</label>
+                <input type="password" placeholder="Enter Your Password" name="password" value={password} onChange={(e)=> {setPassword(e.target.value); validatepassword(e.target.value)}} required/>
+                {passworderror && <p className="error-message">{passworderror}</p>} */}
+
+                <div className="centre">
+                    {/* <Link to="/getuser"> */}
+                        <button type="submit" onClick={handleAddUser}>Add User</button>
+                </div>
+                
             </form>
-            
-        </>
-
+        </div>
     )
 }
+
+export default AddUser;

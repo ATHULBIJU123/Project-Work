@@ -18,7 +18,7 @@
 
 .list ul li button{
     background-color: inherit;
-    color:rgb(10, 10, 10);
+    color:darkblue;
 }
 
 .list ul li button:hover{
@@ -27,10 +27,10 @@
 }
 
 .adminnav{
-    /* border: solid 1px green; */
+    /* border: solid 5px green; */
     color:white;
-    background-color:inherit;
-    /* height: 8vh; */
-    width: 100vw;
-    margin-top: -450px;
+    background-color: inherit;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
 } 
