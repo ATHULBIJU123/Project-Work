@@ -15,8 +15,19 @@ const LogIn = () => {
             });
             console.log("response:", response)
             if (response.data && response.data.success) {
+
+                const {token,user_type} = response.data.data;
+
                 console.log("response.data.data:", response.data.data)
                 localStorage.setItem('jwtToken', response.data.data.data);
+
+                const userTypemap={
+                    '6668bcc6a10df1c8ac10c153': 'admin',
+                    '6668bcd7a10df1c8ac10c154': 'employee'
+               }
+               const usertype=userTypemap[user_type]
+
+               
                 console.log('Token saved to localStorage');
                 navigate('/admin');
                 
