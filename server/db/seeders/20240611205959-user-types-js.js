@@ -19,7 +19,7 @@ module.exports = {
           user_type:"employee",
         },
       ]).then(res => {
-      // Prints "1"
+      // Prints "1" 
       console.log(res.insertedCount);
     });
     

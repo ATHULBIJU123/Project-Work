@@ -16,7 +16,8 @@ module.exports = {
               gender: "Male",
               mobile_no: "9874563210",
               email:"johnvarghese12345@gmail.com",
-              password : "$2y$10$CJftu6Ojp9tPHeTspEVLX.jgLlIr489Xl/RorZLPBVbnGBQtI4bcS"       //John@123
+              password : "$2y$10$CJftu6Ojp9tPHeTspEVLX.jgLlIr489Xl/RorZLPBVbnGBQtI4bcS",       //John@123
+              user_type : "6668bcc6a10df1c8ac10c153"
             }
           ])
           .then((res) => {

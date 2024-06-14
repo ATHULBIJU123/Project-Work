@@ -15,26 +15,35 @@ const LogIn = () => {
             });
             console.log("response:", response)
             if (response.data && response.data.success) {
+                
+                // let token = response.data.data.data
+                const {token,user_type} = response.data.data.data;
 
-                const {token,user_type} = response.data.data;
 
                 console.log("response.data.data:", response.data.data)
-                localStorage.setItem('jwtToken', response.data.data.data);
+                localStorage.setItem('jwtToken', token);
 
                 const userTypemap={
                     '6668bcc6a10df1c8ac10c153': 'admin',
                     '6668bcd7a10df1c8ac10c154': 'employee'
                }
-               const usertype=userTypemap[user_type]
+               const usertype = userTypemap[user_type]
+               console.log("user_type from server:", user_type);
+               console.log("Mapped usertype:", usertype);
 
-               
-                console.log('Token saved to localStorage');
-                navigate('/admin');
-                
-            } else {
-                console.error('Token not found in response');
-                alert("Token not found in response")
+            //    alert(response.data.data);
+
+               if (confirm("Click OK to proceed")) {
+                if (usertype === 'admin') {
+                    navigate('/admin');
+                } else {
+                    navigate('/user');
+                }
             }
+        } else {
+            console.error('Token not found in response');
+            alert("Token not found in response");
+        }
         } catch (error) {
             console.error('Error fetching the token:', error);
             alert("Something went wrong")
