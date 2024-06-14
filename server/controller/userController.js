@@ -67,12 +67,14 @@ exports.createUser = async function (req, res) {
       else if (!password) {
           let response = error_function ({
               statusCode : 401,
-              message : "Password Name is required"
+              message : "Password is required"
           });
 
           res.status(400).send(response);
           return;
       }
+
+
 
       let email_count = await users.countDocuments({email});
 
@@ -159,6 +161,7 @@ exports.createUser = async function (req, res) {
           name : name,
           email,
           password : hashed_password,
+          user_type : "6668bcd7a10df1c8ac10c154"
       });
 
       const saved_user = await new_user.save();

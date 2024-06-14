@@ -50,24 +50,25 @@ exports.accessControl = async function (access_types, req, res, next) {
 
               if (allowed && allowed.includes(user_type)) {
                 //checking if the token is in revoked list
-                let revoked = await authController.checkRevoked(req, res);
-                if (revoked === false) {
-                  //token not in revoked list
-                  next();
-                } else if (revoked === true) {
-                  //token is in revoked list
-                  let response = error_function({
-                    status: 401,
-                    message: "Revoked Access Token",
-                  });
-                  res.status(401).send(response);
-                } else {
-                  let response = error_function({
-                    status: 400,
-                    message: "Something Went Wrong",
-                  });
-                  res.status(400).send(response);
-                }
+                // let revoked = await authController.checkRevoked(req, res);
+                // if (revoked === false) {
+                //   //token not in revoked list
+                //   next();
+                // } else if (revoked === true) {
+                //   //token is in revoked list
+                //   let response = error_function({
+                //     status: 401,
+                //     message: "Revoked Access Token",
+                //   });
+                //   res.status(401).send(response);
+                // } else {
+                //   let response = error_function({
+                //     status: 400,
+                //     message: "Something Went Wrong",
+                //   });
+                //   res.status(400).send(response);
+                // }
+                next();
               } else {
                 let response = error_function({
                   status: 403,

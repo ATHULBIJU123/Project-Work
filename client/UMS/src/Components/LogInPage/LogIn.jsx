@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./LogIn.css"
 import React, {useState} from "react";
@@ -9,7 +9,12 @@ const LogIn = () => {
     const navigate = useNavigate();
     const submitForm = async (email, password) => {
         try {
-            const response = await axios.post('http://localhost:4000/login', {
+            const response = await axios.post('http://localhost:4000/login',json_data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+
                 email: email,
                 password: password
             });
