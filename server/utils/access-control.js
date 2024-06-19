@@ -49,16 +49,16 @@ exports.accessControl = async function (access_types, req, res, next) {
 
                             console.log("User type : ", user_type);
 
-                            // if (allowed && allowed.includes(user_type)) {
+                            if (allowed && allowed.includes(user_type)) {
             
-                            //     next();
-                            // } else {
+                                next();
+                            } else {
                                 let response = error_function({
                                     status: 403,
                                     message: "Not allowed to access the route",
                                 });
                                 res.status(403).send(response);
-                            // }
+                            }
                         }
                     }
                 )

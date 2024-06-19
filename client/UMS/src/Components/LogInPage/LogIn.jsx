@@ -23,22 +23,22 @@
                     const responseData = response.data.data.data;
                     console.log("responseData:", responseData);
     
-                    const { user_type } = responseData;
+                    const user_type = response.data.user_type.user_type;
     
-                    console.log("Token from server:", responseData);
+                    // console.log("Token from server:", responseData);
                     console.log("User type from server:", user_type);
                     localStorage.setItem('jwtToken', responseData);
 
-                    const userTypemap={
-                        '6668bcc6a10df1c8ac10c153': 'admin',
-                        '6668bcd7a10df1c8ac10c154': 'employee'
-                }
-                const usertype = userTypemap[user_type]
-                console.log("user_type from server:", user_type);
-                console.log("Mapped usertype:", usertype);
+                //     const userTypemap={
+                //         '6668bcc6a10df1c8ac10c153': 'admin',
+                //         '6668bcd7a10df1c8ac10c154': 'employee'
+                // }
+                // const usertype = userTypemap[user_type]
+                // console.log("user_type from server:", user_type);
+                // console.log("Mapped usertype:", usertype);
 
-                if (!usertype) {
-                    console.error('User type not found in userTypemap');
+                if (!user_type) {
+                    // console.error('User type not found in userTypemap');
                     alert("Invalid user type received from server");
                     return;
                 }
@@ -46,7 +46,7 @@
                 //    alert(response.data.data);
 
                 if (confirm("Click OK to proceed")) {
-                    if (usertype === 'admin') {
+                    if (user_type === 'admin') {
                         navigate('/admin');
                     } else {
                         navigate('/user');
