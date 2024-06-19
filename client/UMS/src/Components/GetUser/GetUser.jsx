@@ -28,19 +28,11 @@ function Getuser(){
             try{
                 const response = await axios.get('http://localhost:4000/getuser',{
 
-                  params: {
-                    page: currentpage,
-                    limit: itemsperpage,
-                    keyword: keyword
-                  },
-
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
-                });
-                setData(response.data.data);
-                setTotalPages(response.data.totalPages);
-                setLoading(false);
+                })
+
             } catch (error) {
                 console.log('Error fetching data:',error);
             }
@@ -60,37 +52,32 @@ function Getuser(){
         }
     };
 
-    // const nextPage = () => {
-    //     if (currentpage < totalPages) {
-    //         setCurrentpage(currentpage + 1);
-    //     }
+    // const handleSearch = (e) => {
+    //     const searchKeyword = e.target.value;
+    //     setKeyword(searchKeyword);
+    //     setCurrentpage(1);
     // };
-
-    // const prevPage = () => {
-    //     if (currentpage > 1) {
-    //         setCurrentpage(currentpage - 1);
-    //     }
-    // };
-
-    const handleSearch = (e) => {
-        const searchKeyword = e.target.value;
-        setKeyword(searchKeyword);
-        setCurrentpage(1);
-    };
     
 
     return(
         <>
-            <div className="getData">
+            {/* <div className="getData">
                
                 <h1>Users</h1>
                 <input type="text" placeholder="Search" value={keyword} onChange={handleSearch}/>
-            </div>
-            <div className="headings">
-                <h1>Name</h1>
-                <h1>Email</h1>
-                <h1 className="phone">Phone Number</h1>
-            </div>
+            </div> */}
+<table className="headings">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th className="phone">Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {/* <!-- Table rows will go here --> */}
+    </tbody>
+</table>
             
            { data.map((user) => (
             <div className="one" key={user._id}>
@@ -106,15 +93,10 @@ function Getuser(){
                     </Link>
                 </div>
             </div>
-            ))};
-           
-            {/* <div className="pagination">
-                <button onClick={prevPage} disabled={currentpage === 1}>Prev</button>
-                <span>{currentpage} of {totalPages}</span>
-                <button onClick={nextPage} disabled={currentpage === totalPages}>Next</button>
-            </div> */}
+            ))}
+        
         </>
-    );
+    )
 }
 
 export default Getuser
