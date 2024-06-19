@@ -10,7 +10,7 @@ exports.accessControl = async function (access_types, req, res, next) {
     if (access_types == "*") {
       next();
     } else {
-      const authHeader = req.headers["authorization"];
+      const authHeader = req.headers["Authorization"];
       const token = authHeader ? authHeader.split(" ")[1] : null;
       if (
         token == null ||

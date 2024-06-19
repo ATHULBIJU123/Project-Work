@@ -13,6 +13,7 @@ exports.login = async function (req, res) {
       let user = await users.findOne({
         email: email
       })
+      .populate("user_type")
         console.log("user :",user);
 
       if (!user) {
@@ -21,7 +22,7 @@ exports.login = async function (req, res) {
         return;
       }
 
-      // let user_type = user.user_type.user_type;
+      let user_type = user.user_type;
       if (user) {
         //verifying password
         bcrypt.compare(password, user.password, async (error, auth) => {
@@ -38,7 +39,7 @@ exports.login = async function (req, res) {
               message: "Login Successful",
             });
 
-            // response.user_type = user_type;
+            response.user_type = user_type;
             res.status(response.statusCode).send(response);
             return;
           } else {

@@ -7,7 +7,7 @@ module.exports = {
       // Return a promise to correctly handle asynchronicity.
 
       // Example:
-      return models.user_type
+      return models.user_types
       .insertMany([
         {
           _id:"6668bcc6a10df1c8ac10c153",
@@ -31,7 +31,7 @@ module.exports = {
       // Return a promise to correctly handle asynchronicity.
 
       // Example:
-      return models.user_type
+      return models.user_types
       .deleteMany({
         _id: {
           $in: [
