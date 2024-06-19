@@ -23,11 +23,11 @@
                     const responseData = response.data.data.data;
                     console.log("responseData:", responseData);
     
-                    const { token, user_type } = responseData;
+                    const { user_type } = responseData;
     
                     console.log("Token from server:", responseData);
                     console.log("User type from server:", user_type);
-                        localStorage.setItem('jwtToken', token);
+                    localStorage.setItem('jwtToken', responseData);
 
                     const userTypemap={
                         '6668bcc6a10df1c8ac10c153': 'admin',

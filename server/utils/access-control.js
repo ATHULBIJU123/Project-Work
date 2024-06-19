@@ -43,22 +43,22 @@ exports.accessControl = async function (access_types, req, res, next) {
                                 .map((obj) => control_data[obj]);
 
                             //Fetching user_type details
-                            console.log("Token from access control : ", decoded.user_id);
+                            // console.log("Token from access control : ", decoded.user_id);
                             let user_type_id = (await users.findOne({ _id: decoded.user_id })).user_type;
                             let user_type = (await user_types.findOne({ _id: user_type_id })).user_type;
 
                             console.log("User type : ", user_type);
 
-                            if (allowed && allowed.includes(user_type)) {
+                            // if (allowed && allowed.includes(user_type)) {
             
-                                next();
-                            } else {
+                            //     next();
+                            // } else {
                                 let response = error_function({
                                     status: 403,
                                     message: "Not allowed to access the route",
                                 });
                                 res.status(403).send(response);
-                            }
+                            // }
                         }
                     }
                 )
