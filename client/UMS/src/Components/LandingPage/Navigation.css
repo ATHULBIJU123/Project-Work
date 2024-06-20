@@ -8,8 +8,6 @@
   width: 100vw;
   display: flex;
   align-items: center;
-  /* border: 1px solid blue; */
-  /* margin-top: -300px; */
   position: sticky;
   top: 0%;
   /* border: 2px solid black ; */
@@ -19,7 +17,7 @@ nav ul li {
   margin: 10px;
 }
 
-.items{
+.items li button{
   display: flex;
   list-style: none;
 }

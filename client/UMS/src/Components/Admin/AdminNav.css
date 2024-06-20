@@ -18,7 +18,7 @@
 
 .list ul li button{
     background-color: inherit;
-    color:darkblue;
+    color:yellow    ;
 }
 
 .list ul li button:hover{
@@ -32,5 +32,8 @@
     background-color: inherit;
     display: flex;
     justify-content: flex-end;
-    width: 100%;
+    width: 100vw;
+    position: fixed;
+    top : 0%;
+    right: 0;
 } 

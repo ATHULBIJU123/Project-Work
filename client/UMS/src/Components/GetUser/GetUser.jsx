@@ -5,33 +5,29 @@ import './GetUser.css';
 
 function Getuser(){
     const [data,setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [currentpage, setCurrentpage] = useState(1);
-    const [itemsperpage] = useState(5);
-    const [totalPages, setTotalPages] = useState(1);
     const [token,setToken] = useState('');
-    const [keyword, setKeyword] = useState('');
+
 
     useEffect(()=>{
 
-        const storedToken=localStorage.getItem('token');
+        const storedToken=localStorage.getItem('jwtToken');
         console.log("Token :",storedToken)
         if(storedToken){
             setToken(storedToken);
         }
 
-        console.log(token)
-    },[]);
+    },[token]);
 
     useEffect(()=>{
         const fetchData = async ()=>{
             try{
-                const response = await axios.get('http://localhost:4000/getuser',{
+                const response = await axios.get('http://localhost:4000/users',{
 
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 })
+                console.log("response :", response)
 
             } catch (error) {
                 console.log('Error fetching data:',error);
@@ -42,40 +38,30 @@ function Getuser(){
             fetchData();
         }
 
-    },[token, currentpage, itemsperpage,keyword]);
+    },[token]);
 
-    const HandleViewUser = (userId) => {
-        if (userId !== undefined) {
-            console.log("View button clicked for user ID:",userId);
-        }else {
-            console.log("User ID undefined");
-        }
-    };
-
-    // const handleSearch = (e) => {
-    //     const searchKeyword = e.target.value;
-    //     setKeyword(searchKeyword);
-    //     setCurrentpage(1);
+    // const HandleViewUser = (userId) => {
+    //     if (userId !== undefined) {
+    //         console.log("View button clicked for user ID:",userId);
+    //     }else {
+    //         console.log("User ID undefined");
+    //     }
     // };
     
 
     return(
         <>
-            {/* <div className="getData">
-               
-                <h1>Users</h1>
-                <input type="text" placeholder="Search" value={keyword} onChange={handleSearch}/>
-            </div> */}
+
 <table className="headings">
     <thead>
         <tr>
             <th>Name</th>
             <th>Email</th>
-            <th className="phone">Phone Number</th>
+            {/* <th className="phone">Phone Number</th> */}
         </tr>
     </thead>
     <tbody>
-        {/* <!-- Table rows will go here --> */}
+        
     </tbody>
 </table>
             
