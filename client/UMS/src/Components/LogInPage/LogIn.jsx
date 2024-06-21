@@ -131,6 +131,10 @@
                     <div className="btn">
                         <button type="submit">Log In</button>
                     </div>
+
+                    <div>
+                        <Link to="/forgotpassword!!">Forgot Password</Link>
+                    </div>
                 </form>
             );
         };
