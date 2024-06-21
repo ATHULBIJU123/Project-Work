@@ -78,7 +78,7 @@ function AddUser(){
 
             // console.log("Token",token);
 
-            const response = await axios.post('http://localhost:4000/adduser',json_data,{
+            const response = await axios.post('http://localhost:4000/users',json_data,{
                
                 headers: {
                     'Authorization': `Bearer ${token}`,

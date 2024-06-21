@@ -16,4 +16,4 @@ router.get('/users', setAccessControl('1'),userController.getUsers);
 router.post('/users',setAccessControl('1'), userController.addNewUser);
 
 
-module.exports = router; 
+module.exports = router;

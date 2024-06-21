@@ -4,6 +4,8 @@ const users = require("../db/models/users")
 const { mongoose } = require('mongoose');
 const bcrypt = require ('bcryptjs');
 const express = require('express');
+const set_password_template = require('../utils/email-templates/set-password').resetPassword;
+const sendEmail = require('../utils/send-email').sendEmail;
 
 
 
@@ -40,41 +42,55 @@ exports.getUsers = async function (req, res) {
 
 exports.addNewUser = async function (req, res) {
     try {
-      await userManager
-        .checkValid(req)
-        .then(async (result) => {
-          if (result.isValid) {
-            await userManager
-              .createUser(req)
-              .then((result) => {
-                let response = success_function(result);
-                response.zoho_email = result.zoho_email;
-                response.zoho_password = result.zoho_password;
-                res.status(result.status).send(response);
-                return;
-              })
-              .catch((error) => {
-                let response = error_function(error);
-                res.status(error.status).send(response);
-                return;
-              });
-          } else {
-            let response = error_function({
-              status: 400,
-              message: "Validation failed",
-            });
-            response.errors = result.errors;
-            res.status(response.statusCode).send(response);
-            return;
+      // const authHeader = req.headers["authorization"];
+      // const token = authHeader ? authHeader.split(" ")[1] : null;
+
+      let email = req.body.email;
+      let name = req.body.name;
+
+      function generateRandomPassword(length) {
+          let charset =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$";
+          let password = "";
+
+          for (var i = 0; i < length; i++) {
+            var randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset.charAt(randomIndex);
           }
-        })
-        .catch((error) => {
-          let response = error_function(error);
-          response.errors = error.errors;
-          res.status(error.status).send(response);
-          return;
-        });
+          return password;
+        }
+
+        var randomPassword = generateRandomPassword(12);
+        //console.log(randomPassword);
+
+        let salt = bcrypt.genSaltSync(10);
+        let hashed_password = bcrypt.hashSync(randomPassword, salt);
+      
+      //Saving user details
+      let new_user = users.create({
+        name,
+        email,
+        password : hashed_password
+      });
+
+        let email_template = await set_password_template(
+          name,
+          email,
+        randomPassword
+      );
+
+      await sendEmail(email, "Update Password", email_template);
+
+      let response = success_function({
+        statusCode : 201,
+        data : new_user,
+        message : "User created successfully",
+      });
+      res.status(response.statusCode).send(response);
+      return;
+              
     } catch (error) {
+      console.log("error from catch block : ", error);
       if (process.env.NODE_ENV == "production") {
         let response = error_function({
           status: 400,
