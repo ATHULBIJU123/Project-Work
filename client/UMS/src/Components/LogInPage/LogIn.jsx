@@ -133,7 +133,7 @@
                     </div>
 
                     <div>
-                        <Link to="/forgotpassword!!">Forgot Password</Link>
+                        <Link to="/forgotpassword">Forgot Password</Link>
                     </div>
                 </form>
             );
