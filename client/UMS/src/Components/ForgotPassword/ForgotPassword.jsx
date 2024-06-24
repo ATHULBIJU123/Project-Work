@@ -10,7 +10,7 @@ function ForgotPassword() {
 
     const handleForgotPassword = async ()=> {
         try{
-            const response = await axios.post('http://localhost:4000/forgot-password',{email});
+            const response = await axios.post('http://localhost:4000/forget-password',{email});
             setMessage(response.data.message);
 
             if(response.status === 200) {

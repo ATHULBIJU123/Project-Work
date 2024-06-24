@@ -3,10 +3,11 @@ const users = require("../db/models/users")
 let jwt = require('jsonwebtoken');
 let bcrypt =require('bcryptjs');
 let dotenv =require('dotenv');
+dotenv.config();
 const  {sendEmail}  = require('../utils/send-email');
 
-// const email_template = require("../utils/email-templates/resetPassword").resetPassword
 const resetPassword = require("../utils/email-templates/resetPassword").resetPassword;
+
 exports.login = async function (req, res) {
   try {
     let email = req.body.email;
@@ -189,6 +190,7 @@ exports.forgotPasswordController = async function (req, res) {
 exports.passwordResetController = async function (req, res) {
   try {
     const authHeader = req.headers["authorization"];
+    console.log(authHeader)
     const token = authHeader.split(" ")[1];
 
     let password = req.body.password;
@@ -197,7 +199,7 @@ exports.passwordResetController = async function (req, res) {
     // console.log("user_id : ", decoded.user_id);
     // console.log("Token : ", token);
     let user = await users.findOne({
-      // $and: [{ _id: decoded.user_id }, { password_token: token }],
+      $and: [{ _id: decoded.user_id }, { password_token: token }],
     });
     if (user) {
       let salt = bcrypt.genSaltSync(10);
