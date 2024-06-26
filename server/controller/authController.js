@@ -190,10 +190,38 @@ exports.forgotPasswordController = async function (req, res) {
 exports.passwordResetController = async function (req, res) {
   try {
     const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      const response = error_function({
+        statusCode: 401,
+        message: "Authorization header is missing",
+      });
+      res.status(response.statusCode).send(response);
+      return;
+    }
     console.log(authHeader)
     const token = authHeader.split(" ")[1];
+    console.log("token :",token)
 
-    let password = req.body.password;
+    let {password, confirmpassword} = req.body;
+    console.log("req.body", req.body)
+
+    if (!password || !confirmpassword) {
+      const response = error_function({
+        statusCode: 400,
+        message: "Password and confirm password are required",
+      });
+      res.status(response.statusCode).send(response);
+      return;
+    }
+
+    if (password !== confirmpassword) {
+      const response = error_function({
+        statusCode: 400,
+        message: "Password and confirm password do not match",
+      });
+      res.status(response.statusCode).send(response);
+      return;
+    }
 
     decoded = jwt.decode(token);
     // console.log("user_id : ", decoded.user_id);
