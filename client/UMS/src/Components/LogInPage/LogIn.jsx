@@ -3,6 +3,7 @@
     import "./LogIn.css"
     import React, {useState} from "react";
     import axios from "axios";
+    import swal from 'sweetalert2';
 
 
     const LogIn = () => {
@@ -48,6 +49,11 @@
                 if (confirm("Click OK to proceed")) {
                     if (user_type === 'admin') {
                         navigate('/admin');
+                        swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            text: "loged in as admin"
+                        })
                     } else {
                         navigate('/user');
                     }
@@ -57,8 +63,11 @@
                 alert("Token not found in response");
             }
             } catch (error) {
-                console.error('Error fetching the token:', error);
-                alert("Something went wrong")
+                swal.fire({
+                    icon: "error",
+                    title: "error",
+                    text: "invalid email or password"
+                })
             }
         };
 
