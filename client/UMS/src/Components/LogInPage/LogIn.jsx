@@ -40,7 +40,13 @@
 
                 if (!user_type) {
                     // console.error('User type not found in userTypemap');
-                    alert("Invalid user type received from server");
+                    // alert("Invalid user type received from server");
+                    swal.fire({
+                        icon: "error",
+                        title: "error",
+                        text: "Invalid user type received from server"
+                    })
+                    
                     return;
                 }
 
@@ -52,21 +58,31 @@
                         swal.fire({
                             icon: "success",
                             title: "Success",
-                            text: "loged in as admin"
+                            text: "Logged in as Admin"
                         })
                     } else {
                         navigate('/user');
+                        swal.fire({
+                            icon: "success",
+                            title: "Success",
+                            text: "Logged in as User"
+                        })
                     }
                 }
             } else {
                 console.error('Token not found in response');
-                alert("Token not found in response");
+                // alert("Token not found in response");
+                swal.fire({
+                    icon: "error",
+                    title: "error",
+                    text: "Token not found in response"
+                })
             }
             } catch (error) {
                 swal.fire({
                     icon: "error",
                     title: "error",
-                    text: "invalid email or password"
+                    text: "Invalid email or password"
                 })
             }
         };

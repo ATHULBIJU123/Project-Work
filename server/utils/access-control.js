@@ -59,6 +59,7 @@ exports.accessControl = async function (access_types, req, res, next) {
                                 });
                                 res.status(403).send(response);
                             }
+                            console.log("Datas Fetched Succesfully")
                         }
                     }
                 )

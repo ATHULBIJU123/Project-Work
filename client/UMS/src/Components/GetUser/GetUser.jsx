@@ -5,33 +5,32 @@ import './GetUser.css';
 
 function Getuser(){
     const [data,setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [currentpage, setCurrentpage] = useState(1);
     const [itemsperpage] = useState(5);
-    const [totalPages, setTotalPages] = useState(1);
     const [token,setToken] = useState('');
     const [keyword, setKeyword] = useState('');
 
     useEffect(()=>{
 
-        const storedToken=localStorage.getItem('token');
+        const storedToken=localStorage.getItem('jwtToken');
         console.log("Token :",storedToken)
         if(storedToken){
             setToken(storedToken);
         }
 
-        console.log(token)
+        // console.log("Token :",token)
     },[]);
 
     useEffect(()=>{
         const fetchData = async ()=>{
             try{
-                const response = await axios.get('http://localhost:4000/getuser',{
+                const response = await axios.get('http://localhost:4000/users',{
 
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 })
+
+                console.log("response :", response)
 
             } catch (error) {
                 console.log('Error fetching data:',error);
@@ -42,7 +41,7 @@ function Getuser(){
             fetchData();
         }
 
-    },[token, currentpage, itemsperpage,keyword]);
+    },[token,keyword]);
 
     const HandleViewUser = (userId) => {
         if (userId !== undefined) {

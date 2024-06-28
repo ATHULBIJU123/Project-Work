@@ -9,7 +9,7 @@ const setAccessControl = (access_type) => {
     }
 };
 
-router.get('/users', setAccessControl('*'),userController.getUsers);
+router.get('/users', setAccessControl('1'),userController.getUsers);
 // router.post('/users', setAccessControl('1'),userController.createUser);
 
 //19 june : mail template
