@@ -103,6 +103,7 @@ function AddUser(){
            
         } catch(error) {
             alert("Invalid email or password")
+            console.log("Error from catch :",error)
         }
     }
 

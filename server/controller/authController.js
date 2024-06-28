@@ -224,8 +224,8 @@ exports.passwordResetController = async function (req, res) {
     }
 
     decoded = jwt.decode(token);
-    // console.log("user_id : ", decoded.user_id);
-    // console.log("Token : ", token);
+    console.log("user_id : ", decoded.user_id);
+    console.log("Token : ", token);
     let user = await users.findOne({
       $and: [{ _id: decoded.user_id }, { password_token: token }],
     });
