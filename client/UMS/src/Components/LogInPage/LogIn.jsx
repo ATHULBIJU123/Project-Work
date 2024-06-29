@@ -23,61 +23,63 @@
                 if (response.data && response.data.success) {
                     const responseData = response.data.data.data;
                     console.log("responseData:", responseData);
-    
+
                     const user_type = response.data.user_type.user_type;
-    
+
                     // console.log("Token from server:", responseData);
                     console.log("User type from server:", user_type);
+                    console.log("Login Successfull")
                     localStorage.setItem('jwtToken', responseData);
+                    console.log("token stored")
 
-                //     const userTypemap={
-                //         '6668bcc6a10df1c8ac10c153': 'admin',
-                //         '6668bcd7a10df1c8ac10c154': 'employee'
-                // }
-                // const usertype = userTypemap[user_type]
-                // console.log("user_type from server:", user_type);
-                // console.log("Mapped usertype:", usertype);
+                    //     const userTypemap={
+                    //         '6668bcc6a10df1c8ac10c153': 'admin',
+                    //         '6668bcd7a10df1c8ac10c154': 'employee'
+                    // }
+                    // const usertype = userTypemap[user_type]
+                    // console.log("user_type from server:", user_type);
+                    // console.log("Mapped usertype:", usertype);
 
-                if (!user_type) {
-                    // console.error('User type not found in userTypemap');
-                    // alert("Invalid user type received from server");
+                    if (!user_type) {
+                        // console.error('User type not found in userTypemap');
+                        // alert("Invalid user type received from server");
+                        swal.fire({
+                            icon: "error",
+                            title: "error",
+                            text: "Invalid user type received from server"
+                        })
+
+                        return;
+                    }
+
+                    //    alert(response.data.data);
+
+                    if (confirm("Click OK to proceed")) {
+                        if (user_type === 'admin') {
+                            navigate('/admin');
+                            swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "Logged in as Admin"
+                            })
+                        } else {
+                            navigate('/user');
+                            swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "Logged in as User"
+                            })
+                        }
+                    }
+                } else {
+                    console.error('Token not found in response');
+                    // alert("Token not found in response");
                     swal.fire({
                         icon: "error",
                         title: "error",
-                        text: "Invalid user type received from server"
+                        text: "Token not found in response"
                     })
-                    
-                    return;
                 }
-
-                //    alert(response.data.data);
-
-                if (confirm("Click OK to proceed")) {
-                    if (user_type === 'admin') {
-                        navigate('/admin');
-                        swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            text: "Logged in as Admin"
-                        })
-                    } else {
-                        navigate('/user');
-                        swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            text: "Logged in as User"
-                        })
-                    }
-                }
-            } else {
-                console.error('Token not found in response');
-                // alert("Token not found in response");
-                swal.fire({
-                    icon: "error",
-                    title: "error",
-                    text: "Token not found in response"
-                })
-            }
             } catch (error) {
                 swal.fire({
                     icon: "error",

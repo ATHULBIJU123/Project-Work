@@ -32,8 +32,6 @@ function AddUser(){
 
     const [generatedPassword, setGeneratedPassword] = useState('');
 
-    const [token,setToken] = useState('')
-
     useEffect(()=>{
         const storedToken = localStorage.getItem('token');
 
@@ -78,6 +76,8 @@ function AddUser(){
 
             // console.log("Token",token);
 
+            let token = localStorage.getItem('jwtToken')
+
             const response = await axios.post('http://localhost:4000/users',json_data,{
                
                 headers: {
@@ -102,8 +102,8 @@ function AddUser(){
             }
            
         } catch(error) {
-            alert("Invalid email or password")
             console.log("Error from catch :",error)
+            alert("Invalid email or password")
         }
     }
 

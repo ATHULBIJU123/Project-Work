@@ -21,12 +21,16 @@ exports.login = async function (req, res) {
         console.log("user :",user);
 
       if (!user) {
-        let response = error_function({ statusCode: 400, message: "Email is invalid" });
+        let response = error_function({
+          statusCode: 400,
+          message: "Email is invalid"
+        });
         res.status(response.statusCode).send(response);
         return;
       }
 
       let user_type = user.user_type;
+      console.log("user_type:",user_type);
       if (user) {
         //verifying password
         bcrypt.compare(password, user.password, async (error, auth) => {
@@ -59,7 +63,7 @@ exports.login = async function (req, res) {
       } else {
         let response = error_function({
           statusCode: 401,
-          message: "Invalid Credentials",
+          message: "User Not found",
         });
         res.status(response.statusCode).send(response);
         return;

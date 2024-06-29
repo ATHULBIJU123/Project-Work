@@ -43,7 +43,7 @@ exports.accessControl = async function (access_types, req, res, next) {
                                 .map((obj) => control_data[obj]);
 
                             //Fetching user_type details
-                            // console.log("Token from access control : ", decoded.user_id);
+                            console.log("Token from access control : ", decoded.user_id);
                             let user_type_id = (await users.findOne({ _id: decoded.user_id })).user_type;
                             let user_type = (await user_types.findOne({ _id: user_type_id })).user_type;
 
