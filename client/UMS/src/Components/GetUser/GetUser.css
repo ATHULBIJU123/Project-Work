@@ -1,0 +1,55 @@
+.getData {
+    color: green;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
+}
+
+.getData h1 {
+    margin-bottom: 20px;
+    font-size: 1.5em; 
+    color: #333; 
+}
+
+.one, .one p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.one p {
+    width: max-content;
+    color: green;
+    font-size: 1.2em; 
+    margin: 10px 0; 
+}
+.two, .three, .headings, .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0; 
+}
+
+.headings {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.headings th, .headings td {
+    border: 1px solid #ddd;
+    text-align: left; 
+    padding: 12px 15px; 
+}
+
+.headings th {
+    background-color: #f4f4f4;
+    font-size: 1em; 
+    color: #333; 
+}
