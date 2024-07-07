@@ -1,55 +1,65 @@
-.getData {
-    color: green;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px; 
-    border: 1px solid #ccc; 
-    border-radius: 8px; 
-    background-color: #f9f9f9; 
+.search h1{
+    text-align: center;
+    font-size: 40px;
+    color: #000000;
 }
-
-.getData h1 {
-    margin-bottom: 20px;
-    font-size: 1.5em; 
-    color: #333; 
-}
-
-.one, .one p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.one p {
-    width: max-content;
-    color: green;
-    font-size: 1.2em; 
-    margin: 10px 0; 
-}
-.two, .three, .headings, .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0; 
-}
-
-.headings {
+.table-container {
     width: 100%;
+    margin: 20px auto;
     border-collapse: collapse;
-    margin: 20px 0;
+    box-shadow: 0 2px 10px rgba(68, 63, 63, 0.1);
+    background-color: #19b275de;
+    border-radius: 10px ;
 }
 
-.headings th, .headings td {
+table {
+    width: 100%;
+    margin: 0px 0;
+}
+
+thead {
+    color: #b7ff00;
+}
+
+thead th {
+    padding: 10px;
+    text-align: center;
+    font-size: 30px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+
+tbody td {
+    padding: 10px;
+    text-align: left;
+}
+
+tbody input[type="text"],
+tbody input[type="email"] {
     border: 1px solid #ddd;
-    text-align: left; 
-    padding: 12px 15px; 
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
-.headings th {
-    background-color: #f4f4f4;
-    font-size: 1em; 
-    color: #333; 
+button {
+    padding: 8px 12px;
+    background-color: #007bff39;
+    color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #00a7b3;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }

@@ -1,4 +1,4 @@
-this is a test file for testing CodeSpace.
+
 check accesscontroll of server, auth routes should be available to everyone and user ruotes should be available to restricted users.
 Add user_types in every users in db.
 Refer the old commit regarding user-types.

@@ -13,32 +13,30 @@ exports.getUsers = async function (req, res) {
   try {
     const userData = await users.find();
     if (userData) {
-      let response = success_function({
+      const response = {
         statusCode: 200,
         data: userData,
-        message: "Datas fetched successfully",
-      })
+        message: "Data fetched successfully",
+      };
       res.status(200).send(response);
-      return;
     } else {
-      let response = error_function({
+      const response = {
         statusCode: 400,
         message: "Failed to get Data",
-      })
+      };
       res.status(400).send(response);
-      return;
     }
-
   } catch (error) {
-    let response = error_function({
+    const response = {
       statusCode: 400,
       message: "Something went wrong",
-    })
-    console.log("error : ", error);
+    };
+    console.error("Error fetching data: ", error);
     res.status(400).send(response);
-    return;
   }
-}
+};
+
+
 
 exports.addNewUser = async function (req, res) {
     try {
@@ -70,7 +68,8 @@ exports.addNewUser = async function (req, res) {
       let new_user = users.create({
         name,
         email,
-        password : hashed_password
+        password : hashed_password,
+        user_type : "6668bcd7a10df1c8ac10c154"
       });
 
         let email_template = await set_password_template(
