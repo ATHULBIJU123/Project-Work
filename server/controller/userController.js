@@ -11,21 +11,47 @@ const sendEmail = require('../utils/send-email').sendEmail;
 
 exports.getUsers = async function (req, res) {
   try {
-    const userData = await users.find();
-    if (userData) {
-      const response = {
-        statusCode: 200,
-        data: userData,
-        message: "Data fetched successfully",
-      };
-      res.status(200).send(response);
-    } else {
-      const response = {
-        statusCode: 400,
-        message: "Failed to get Data",
-      };
-      res.status(400).send(response);
-    }
+    const page = parseInt(req.query.page) || 1; //current page,default to 1
+        const limit = parseInt(req.query.limit) || 5; //items per page,default to 10
+
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+
+        const keyword = req.query.keyword
+
+        let filter={};
+
+        if (keyword) {
+            filter = {
+                $or : [
+                    { "name": { $regex: keyword, $options: "i"} },
+                    { "email" : { $regex: keyword, $options: "i"} }
+                ]
+            };
+        }
+
+        const allUsers = await users.find(filter).skip(startIndex).limit(limit);
+        const totalUsers = await users.countDocuments(filter);
+         
+        //const allUsers = await users.find();
+        if (allUsers && allUsers.length > 0){
+
+            const response = {
+                statusCode:200,
+                message: "success",
+                data: allUsers,
+                currentPage: page,
+                totalPages: Math.ceil(totalUsers / limit)
+            };
+            res.status(200).send(response);
+        }else {
+
+            const response = {
+                statusCode:404,
+                message: "No users found"
+            };
+            res.status(404).send(response);
+        }
   } catch (error) {
     const response = {
       statusCode: 400,

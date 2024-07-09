@@ -81,7 +81,7 @@ function GetUser() {
     return (
         <>
             <div className="search">
-                <h1>Users</h1>
+                <h1>Find Users :</h1>
                 <input type="text" placeholder="Search" value={keyword} onChange={handleSearch} />
             </div>
             <div className="table-container">
