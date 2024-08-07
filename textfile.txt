@@ -4,3 +4,4 @@ Add user_types in every users in db.
 Refer the old commit regarding user-types.
 
 test to update branches
+latest update 2AUG

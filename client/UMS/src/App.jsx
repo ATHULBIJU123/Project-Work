@@ -24,10 +24,7 @@ function App() {
             <Route path="/getUser" exact element={<Getuser />}/>
             <Route path="/forgotpassword" exact element= {<ForgotPassword/>}/>
             <Route path="/reset-password" exact element={<ResetPassword/>}/>
-
           </Routes>
-
-
       </Router>
     </>
   )

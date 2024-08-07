@@ -159,7 +159,7 @@
                         <button type="submit">Log In</button>
                     </div>
 
-                    <div>
+                    <div className="forgot">
                         <Link to="/forgotpassword">Forgot Password</Link>
                     </div>
                 </form>

@@ -1,7 +1,8 @@
-body{
+.getUSer{
     background: none;
     background-color: #ffffffdf;
 }
+
 
 .search h1{
     text-align: left;
@@ -17,7 +18,7 @@ body{
     top: 10px; 
 }
 .table-container {
-    width: max-content;
+    width: 50vw;
     height: 70vh;
     margin: 20px auto;
     border-collapse: collapse;
@@ -62,7 +63,7 @@ tbody input[type="email"] {
 }
 
 button {
-    padding: 8px 12px;
+    padding: 8px 20px;
     background-color: #007bff39;
     color: #000000;
     border: none;
@@ -77,4 +78,13 @@ button:hover {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.pagination button{
+    margin-left: 10px;
+    
+}
+
+.pagination span {
+    color: blue;
 }

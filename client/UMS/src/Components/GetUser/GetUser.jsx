@@ -80,6 +80,7 @@ function GetUser() {
 
     return (
         <>
+        <div className="getUser">
             <div className="search">
                 <h1>Find Users :</h1>
                 <input type="text" placeholder="Search" value={keyword} onChange={handleSearch} />
@@ -110,9 +111,10 @@ function GetUser() {
 
                 <div className="pagination">
                     <button onClick={prevPage} disabled={currentpage === 1}>Prev</button>
-                    <span>{currentpage} of {totalPages}</span>
+                    <span> {currentpage} of {totalPages}</span>
                     <button onClick={nextPage} disabled={currentpage === totalPages}>Next</button>
                 </div>
+            </div>
             </div>
         </>
     );

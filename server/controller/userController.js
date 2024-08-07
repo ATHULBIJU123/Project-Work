@@ -11,8 +11,8 @@ const sendEmail = require('../utils/send-email').sendEmail;
 
 exports.getUsers = async function (req, res) {
   try {
-    const page = parseInt(req.query.page) || 1; //current page,default to 1
-        const limit = parseInt(req.query.limit) || 5; //items per page,default to 10
+    const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 5;
 
         const startIndex = (page - 1) * limit;
         const endIndex = page * limit;
@@ -52,6 +52,7 @@ exports.getUsers = async function (req, res) {
             };
             res.status(404).send(response);
         }
+
   } catch (error) {
     const response = {
       statusCode: 400,
