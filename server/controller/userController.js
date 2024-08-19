@@ -1,8 +1,8 @@
 const { error_function } = require('../utils/response-handler');
-const { success_function} = require('../utils/response-handler');
+const { success_function } = require('../utils/response-handler');
 const users = require("../db/models/users")
 const { mongoose } = require('mongoose');
-const bcrypt = require ('bcryptjs');
+const bcrypt = require('bcryptjs');
 const express = require('express');
 const set_password_template = require('../utils/email-templates/set-password').resetPassword;
 const sendEmail = require('../utils/send-email').sendEmail;
@@ -11,47 +11,47 @@ const sendEmail = require('../utils/send-email').sendEmail;
 
 exports.getUsers = async function (req, res) {
   try {
-    const page = parseInt(req.query.page) || 1; 
-        const limit = parseInt(req.query.limit) || 5;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
 
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
 
-        const keyword = req.query.keyword
+    const keyword = req.query.keyword
 
-        let filter={};
+    let filter = {};
 
-        if (keyword) {
-            filter = {
-                $or : [
-                    { "name": { $regex: keyword, $options: "i"} },
-                    { "email" : { $regex: keyword, $options: "i"} }
-                ]
-            };
-        }
+    if (keyword) {
+      filter = {
+        $or: [
+          { "name": { $regex: keyword, $options: "i" } },
+          { "email": { $regex: keyword, $options: "i" } }
+        ]
+      };
+    }
 
-        const allUsers = await users.find(filter).skip(startIndex).limit(limit);
-        const totalUsers = await users.countDocuments(filter);
-         
-        //const allUsers = await users.find();
-        if (allUsers && allUsers.length > 0){
+    const allUsers = await users.find(filter).skip(startIndex).limit(limit);
+    const totalUsers = await users.countDocuments(filter);
 
-            const response = {
-                statusCode:200,
-                message: "success",
-                data: allUsers,
-                currentPage: page,
-                totalPages: Math.ceil(totalUsers / limit)
-            };
-            res.status(200).send(response);
-        }else {
+    //const allUsers = await users.find();
+    if (allUsers && allUsers.length > 0) {
 
-            const response = {
-                statusCode:404,
-                message: "No users found"
-            };
-            res.status(404).send(response);
-        }
+      const response = {
+        statusCode: 200,
+        message: "success",
+        data: allUsers,
+        currentPage: page,
+        totalPages: Math.ceil(totalUsers / limit)
+      };
+      res.status(200).send(response);
+    } else {
+
+      const response = {
+        statusCode: 404,
+        message: "No users found"
+      };
+      res.status(404).send(response);
+    }
 
   } catch (error) {
     const response = {
@@ -63,233 +63,166 @@ exports.getUsers = async function (req, res) {
   }
 };
 
-
-
 exports.addNewUser = async function (req, res) {
-    try {
-      // const authHeader = req.headers["authorization"];
-      // const token = authHeader ? authHeader.split(" ")[1] : null;
+  try {
+    // const authHeader = req.headers["authorization"];
+    // const token = authHeader ? authHeader.split(" ")[1] : null;
 
-      let email = req.body.email;
-      let name = req.body.name;
+    let email = req.body.email;
+    let name = req.body.name;
 
-      function generateRandomPassword(length) {
-          let charset =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$";
-          let password = "";
+    function generateRandomPassword(length) {
+      let charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$";
+      let password = "";
 
-          for (var i = 0; i < length; i++) {
-            var randomIndex = Math.floor(Math.random() * charset.length);
-            password += charset.charAt(randomIndex);
-          }
-          return password;
-        }
+      for (var i = 0; i < length; i++) {
+        var randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset.charAt(randomIndex);
+      }
+      return password;
+    }
 
-        var randomPassword = generateRandomPassword(12);
-        //console.log(randomPassword);
+    var randomPassword = generateRandomPassword(12);
+    //console.log(randomPassword);
 
-        let salt = bcrypt.genSaltSync(10);
-        let hashed_password = bcrypt.hashSync(randomPassword, salt);
-      
-      //Saving user details
-      let new_user = users.create({
-        name,
-        email,
-        password : hashed_password,
-        user_type : "6668bcd7a10df1c8ac10c154"
+    let salt = bcrypt.genSaltSync(10);
+    let hashed_password = bcrypt.hashSync(randomPassword, salt);
+
+    //Saving user details
+    let new_user = users.create({
+      name,
+      email,
+      password: hashed_password,
+      user_type: "6668bcd7a10df1c8ac10c154"
+    });
+
+    let email_template = await set_password_template(
+      name,
+      email,
+      randomPassword
+    );
+
+    await sendEmail(email, "Update Password", email_template);
+
+    let response = success_function({
+      statusCode: 201,
+      data: new_user,
+      message: "User created successfully",
+    });
+    res.status(response.statusCode).send(response);
+    return;
+
+  } catch (error) {
+    console.log("error from catch block : ", error);
+    if (process.env.NODE_ENV == "production") {
+      let response = error_function({
+        status: 400,
+        message: error
+          ? error.message
+            ? error.message
+            : error
+          : "Something went wrong",
       });
 
-        let email_template = await set_password_template(
-          name,
-          email,
-        randomPassword
-      );
-
-      await sendEmail(email, "Update Password", email_template);
-
-      let response = success_function({
-        statusCode : 201,
-        data : new_user,
-        message : "User created successfully",
-      });
       res.status(response.statusCode).send(response);
       return;
-              
-    } catch (error) {
-      console.log("error from catch block : ", error);
-      if (process.env.NODE_ENV == "production") {
-        let response = error_function({
-          status: 400,
-          message: error
-            ? error.message
-              ? error.message
-              : error
-            : "Something went wrong",
-        });
-  
-        res.status(response.statusCode).send(response);
-        return;
-      } else {
-        let response = error_function({ statusCode: 400, message: error });
-        res.status(response.statusCode).send(response);
-        return;
-      }
+    } else {
+      let response = error_function({ statusCode: 400, message: error });
+      res.status(response.statusCode).send(response);
+      return;
     }
-  };
+  }
+};
 
-// exports.createUser = async function (req, res) {
-//   try {
-//       const name = req.body.name;
-//       const email = req.body.email;
-//       const password = req.body.password;
-//       console.log("password :", password);
+exports.router = async function (req, res) {
+  try {
+    const userId = req.params.userId;
+    const user = await users.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-//       //Validations
-//       if(!name) {
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "Name is required"
-//           });
+    res.json(user);
+  } catch (error) {
+    console.log('Error fetching user details:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
 
-//           res.status(400).send(response);
-//           return;
-//       }
-//       else if (!email){
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "Email is required"
-//           });
+exports.Updateuser = async function (req, res) {
 
-//           res.status(400).send(response);
-//           return;
-//       }
-//       else if (!password) {
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "Password is required"
-//           });
+  const userId = req.params.userId;
+  const userData = req.body;
 
-//           res.status(400).send(response);
-//           return;
-//       }
+  try {
+    const updateuser = await users.findByIdAndUpdate(userId, userData, { new: true });
 
+    if (updateuser) {
+      const response = {
+        statusCode: 200,
+        message: "User updated successfully",
+        data: updateuser
+      };
+      res.status(200).send(response);
+    } else {
+      const response = {
+        statusCode: 404,
+        message: "User not found"
+      };
+      res.status(404).send(response);
+    }
+  } catch (error) {
+    console.log("Error updating user:", error);
+    const response = {
+      statusCode: 500,
+      message: "Internal server error"
+    };
+    res.status(500).send(response);
+  }
+};
 
+exports.deleteUser = async function(req, res) {
+  try {
+      const userId = req.params.id;
 
-//       let email_count = await users.countDocuments({email});
+      // Validation
+      // if (!userId) {
+      //     let response = error_function ({
+      //         statusCode : 401,
+      //         message : "User Id is required"
+      //     });
 
-//       if(email_count >0) {
+      //     res.status(400).send(response);
+      //     return;;
+      // }
 
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "Email alrady exists"
-//           });
+      const user = await users.findById(userId);
 
-//           res.status(400).send(response);
-//           return;
-//       }
+      if (!user) {
+          let response = error_function ({
+              statusCode : 401,
+              message : "User not found"
+          });
 
-//       //Validating firstname
+          res.status(400).send(response);
+          return;
+      }
 
-//       let name_regexp = /^[A-Z]([a-zA-Z]{2,30})?$/;
-//       let validName = name_regexp.test(name);
-//       console.log("validity of name: ", validName);
+      await users.findByIdAndDelete(userId);
 
-//       if(!validName) {
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "Name is invalid"
-//           });
+      let response = success_function ({
+          statusCode: 200,
+          message: "User deleted successfully",
+      });
+      res.status(200).send(response);
 
-//           res.status(400).send(response);
-//           return;
-//       }
-
-//       if(name.length < 2){
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "name is too short"
-//           });
-
-//           res.status(400).send(response);
-//           return;
-//       }
-//       if(name.length > 30){
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "name is too long"
-//           });
-
-//           res.status(400).send(response);
-//           return;
-//       }
-
-
-//       //validating email
-//       let email_regexp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//       let emailvalidity = email_regexp.test(email); 
-//       console.log("validity of email: ", emailvalidity);
-//       if(!emailvalidity){
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "Invalid email"
-//           });
-
-//           res.status(400).send(response);
-//           return;
-//       }
-
-//       //Validating password
-//       let password_regex = /^(?=.*[a-z])(?=,*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
-//       let passwordvalidity = password_regex.test(password); 
-//       console.log("isPasswordvalid: ",passwordvalidity);
-
-//       if(passwordvalidity){
-//           let response = error_function ({
-//               statusCode : 401,
-//               message : "Invalid password"
-//           });
-//       }
-      
-//       let salt = await bcrypt.genSalt(10);
-//       console.log("salt :",salt);
-
-//       let hashed_password = bcrypt.hashSync(password,salt);
-//       console.log("hashed_password : ", hashed_password);
-
-//       const new_user = new users({
-//           name : name,
-//           email,
-//           password : hashed_password,
-//           user_type : "6668bcd7a10df1c8ac10c154"
-//       });
-
-//       const saved_user = await new_user.save();
-
-//       if(saved_user) {
-//           let response = success_function ({
-//               statusCode : 200,
-//               data : saved_user,
-//               message : "User created successfully",
-//           })
-//           res.status(200).send(response);
-//           return;
-//       }else {
-//           let response = error_function ({
-//               statusCode : 400,
-//               message : "User creation failed",
-//           })
-//           res.status(400).send(response);
-//           return;
-//       }
-
-
-//   } catch (error) {
-//       let response = error_function ({
-//           statusCode : 400,
-//           message : "Something went wrong",
-//       })
-//       console.log("error : ", error);
-//       res.status(400).send(response);
-//       return ;
-//   }
-// }
+  } catch (error) {
+      let response = error_function ({
+          statusCode: 500,
+          message: "Internal Server Error",
+      });
+      console.log("error : ", error);
+      res.status(500).send(response);
+  }
+}

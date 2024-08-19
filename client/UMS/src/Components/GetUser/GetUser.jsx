@@ -78,6 +78,14 @@ function GetUser() {
         setCurrentPage(1);
     };
 
+    const HandleDeleteUser =  async (userId) => {
+        try{
+            await axios.delete(`http://localhost:4000/users/${userId}`);
+            console.log("User deleted successfully")
+        } catch (error) {
+            console.log("Deletion failed",error)
+        }
+    }
     return (
         <>
         <div className="getUser">
@@ -103,6 +111,10 @@ function GetUser() {
                                     <Link to={`/detailsuser/${user._id}`}>
                                         <button onClick={() => HandleViewUser(user._id)}>View</button>
                                     </Link>
+                                    <Link to="/getUser" >
+                                        <button onClick={() => HandleDeleteUser(user._id)}>Delete</button>
+                                    </Link>
+                                    
                                 </td>
                             </tr>
                         ))}

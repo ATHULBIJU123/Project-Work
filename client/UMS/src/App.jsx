@@ -12,6 +12,8 @@ import Getuser from "./Components/GetUser/GetUser";
 import ResetPassword from "./Components/ResetPassword/ResetPassword";
 import ForgotPassword from "./Components/ForgotPassword/ForgotPassword";
 
+import Userdetails from "./Components/Userdetails/Userdetails";
+
 function App() {
   return (
     <>
@@ -24,6 +26,8 @@ function App() {
             <Route path="/getUser" exact element={<Getuser />}/>
             <Route path="/forgotpassword" exact element= {<ForgotPassword/>}/>
             <Route path="/reset-password" exact element={<ResetPassword/>}/>
+            <Route path="/detailsuser/:userId" exact element={<Userdetails/>}/>
+            
           </Routes>
       </Router>
     </>

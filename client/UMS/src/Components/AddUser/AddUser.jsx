@@ -3,6 +3,8 @@ import {BrowserRouter as Router,Route,Routes,Link,useParams} from 'react-router-
 import './AddUser.css';
 // import Login from "../Login/Login";
 import axios from "axios";
+import swal from 'sweetalert2';
+
 import { useNavigate } from "react-router-dom";
 
 function AddUser(){
@@ -86,6 +88,12 @@ function AddUser(){
                 },
                 body: json_data,
             });
+
+            swal.fire({
+                icon: "success",
+                title: "Success",
+                text: "Email sent successfully"
+            })
             console.log('requested to add user',response);
 
             const responseData = response.data;
@@ -127,8 +135,7 @@ function AddUser(){
                 </div>
 
                 <div className="centre">
-
-                        <button type="submit" onClick={handleAddUser}>Add User</button>
+                    <button type="submit" onClick={handleAddUser}>Add User</button>
                 </div>
                 
             </form>

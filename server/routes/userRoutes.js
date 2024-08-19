@@ -15,5 +15,10 @@ router.get('/users', setAccessControl('1'),userController.getUsers);
 //19 june : mail template
 router.post('/users',setAccessControl('1'), userController.addNewUser);
 
+router.get('/:userId',userController.router);
+
+router.put('/:userId',userController.Updateuser);
+
+router.delete('/users/:id', userController.deleteUser);
 
 module.exports = router;
